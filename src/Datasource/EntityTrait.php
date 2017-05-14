@@ -1036,12 +1036,58 @@ trait EntityTrait
     }
 
     /**
+     * Get a list of invalid fields and their data for errors upon validation/patching
+     *
+     * @return array
+     */
+    public function getInvalid()
+    {
+        return $this->_invalid;
+    }
+
+    /**
      * Sets a field as invalid and not patchable into the entity.
      *
      * This is useful for batch operations when one needs to get the original value for an error message after patching.
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging purposes
      * or to be able to log it away.
      *
+     * @param string|array $field The value to set.
+     * @param mixed|null $value The invalid value to be set for $field.
+     * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.
+     * @return $this|mixed
+     */
+    public function setInvalid($field, $value = null, $overwrite = false)
+    {
+        if (is_string($field) && $value === null) {
+            $value = isset($this->_invalid[$field]) ? $this->_invalid[$field] : null;
+
+            return $value;
+        }
+
+        if (!is_array($field)) {
+            $field = [$field => $value];
+        }
+
+        foreach ($field as $f => $value) {
+            if ($overwrite) {
+                $this->_invalid[$f] = $value;
+                continue;
+            }
+            $this->_invalid += [$f => $value];
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets a field as invalid and not patchable into the entity.
+     *
+     * This is useful for batch operations when one needs to get the original value for an error message after patching.
+     * This value could not be patched into the entity and is simply copied into the _invalid property for debugging purposes
+     * or to be able to log it away.
+     *
+     * @deprecated 3.5 Use getInvalid()/setInvalid() instead.
      * @param string|array|null $field The field to get invalid value for, or the value to set.
      * @param mixed|null $value The invalid value to be set for $field.
      * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.

@@ -1573,4 +1573,21 @@ class EntityTest extends TestCase
         $this->assertTrue($cloned->dirty('a'));
         $this->assertTrue($cloned->dirty('b'));
     }
+
+    /**
+     * Tests getInvalid and setInvalid
+     *
+     * @return void
+     */
+    public function testGetSetInvalid()
+    {
+        $entity = new Entity();
+        $return = $entity->setInvalid('title', 'albert');
+        $this->assertSame($entity, $return);
+        $this->assertSame(['title' => 'albert'], $entity->getInvalid());
+
+        $entity->setInvalid('body', 'einstein');
+        $body = $entity->setInvalid('body');
+        $this->assertSame('einstein', $body);
+    }
 }
