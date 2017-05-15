@@ -17,6 +17,9 @@ namespace Cake\Datasource;
 /**
  * Describes the methods that any class representing a data storage should
  * comply with.
+ *
+ * @method \Cake\Datasource\EntityTrait getInvalid()
+ * @method \Cake\Datasource\EntityTrait setInvalid($field, $value = null, $overwrite = false)
  */
 interface InvalidPropertyInterface
 {
@@ -31,6 +34,7 @@ interface InvalidPropertyInterface
      * @param mixed|null $value The invalid value to be set for $field.
      * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.
      * @return $this|mixed
+     * @deprecated 3.5.0 Use getInvalid()/setInvalid instead.
      */
     public function invalid($field = null, $value = null, $overwrite = false);
 }
