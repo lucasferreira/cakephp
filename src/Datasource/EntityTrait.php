@@ -1046,6 +1046,19 @@ trait EntityTrait
     }
 
     /**
+     * Get a single value of an invalid field. Returns null if not set.
+     *
+     * @param string $field The name of the field.
+     * @return mixed
+     */
+    public function getInvalidField($field)
+    {
+        $value = isset($this->_invalid[$field]) ? $this->_invalid[$field] : null;
+
+        return $value;
+    }
+
+    /**
      * Sets a field as invalid and not patchable into the entity.
      *
      * This is useful for batch operations when one needs to get the original value for an error message after patching.
@@ -1055,16 +1068,10 @@ trait EntityTrait
      * @param string|array $field The value to set.
      * @param mixed|null $value The invalid value to be set for $field.
      * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.
-     * @return $this|mixed
+     * @return $this
      */
     public function setInvalid($field, $value = null, $overwrite = false)
     {
-        if (is_string($field) && $value === null) {
-            $value = isset($this->_invalid[$field]) ? $this->_invalid[$field] : null;
-
-            return $value;
-        }
-
         if (!is_array($field)) {
             $field = [$field => $value];
         }
@@ -1087,7 +1094,7 @@ trait EntityTrait
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging purposes
      * or to be able to log it away.
      *
-     * @deprecated 3.5 Use getInvalid()/setInvalid() instead.
+     * @deprecated 3.5 Use getInvalid()/getInvalidField()/setInvalid() instead.
      * @param string|array|null $field The field to get invalid value for, or the value to set.
      * @param mixed|null $value The invalid value to be set for $field.
      * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.

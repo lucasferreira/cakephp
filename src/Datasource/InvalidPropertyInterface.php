@@ -18,8 +18,9 @@ namespace Cake\Datasource;
  * Describes the methods that any class representing a data storage should
  * comply with.
  *
- * @method \Cake\Datasource\EntityTrait getInvalid()
- * @method \Cake\Datasource\EntityTrait setInvalid($field, $value = null, $overwrite = false)
+ * @method array getInvalid()
+ * @method mixed getInvalidField()
+ * @method $this setInvalid($field, $value = null, $overwrite = false)
  */
 interface InvalidPropertyInterface
 {

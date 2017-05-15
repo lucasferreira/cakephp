@@ -1585,9 +1585,29 @@ class EntityTest extends TestCase
         $return = $entity->setInvalid('title', 'albert');
         $this->assertSame($entity, $return);
         $this->assertSame(['title' => 'albert'], $entity->getInvalid());
+    }
 
-        $entity->setInvalid('body', 'einstein');
-        $body = $entity->setInvalid('body');
-        $this->assertSame('einstein', $body);
+    /**
+     * Tests getInvalidField
+     *
+     * @return void
+     */
+    public function testGetInvalidField()
+    {
+        $entity = new Entity();
+        $return = $entity->setInvalid('title', 'albert');
+        $this->assertSame($entity, $return);
+        $this->assertSame('albert', $entity->getInvalidField('title'));
+    }
+
+    /**
+     * Tests getInvalidFieldNull
+     *
+     * @return void
+     */
+    public function testGetInvalidFieldNull()
+    {
+        $entity = new Entity();
+        $this->assertNull($entity->getInvalidField('foo'));
     }
 }
